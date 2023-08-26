@@ -68,12 +68,6 @@
     };
   };
 
-  zramSwap = {
-    enable = true;
-    algorithm = "zstd";
-    memoryPercent = 75;
-  };
-
   environment.systemPackages = with pkgs; [
     # base system packages + packages what I *need*
     cloud-utils # provides growpart
