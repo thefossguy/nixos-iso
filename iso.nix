@@ -21,6 +21,7 @@
     # Needed for https://github.com/NixOS/nixpkgs/issues/58959
     supportedFilesystems = lib.mkForce [
       "ext4"
+      "f2fs"
       "vfat"
       "xfs"
       "zfs"
