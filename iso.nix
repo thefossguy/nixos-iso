@@ -172,5 +172,8 @@
     sniffnet
     tealdeer
     tre-command
+
+    # tools specific to NixOS
+    nix-output-monitor
   ];
 }
