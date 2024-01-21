@@ -40,4 +40,25 @@
     tree
     vim
   ];
+
+  # all this just because I don't want to clone my NixOS config repo
+  environment.etc."custom-scripts/clone-nixos-config.sh" = {
+    text = ''
+      #!${pkgs.bash}/bin/bash
+      set -xeuf -o pipefail
+
+      ${pkgs.git}/bin/git clone https://gitlab.com/thefossguy/prathams-nixos.git $HOME/prathams-nixos
+    '';
+    mode = "0777";
+  };
+  systemd.services = {
+    "clone-nixos-config" = {
+      serviceConfig = {
+        Type = "oneshot";
+        Environment = [ "PATH=\"${pkgs.openssl}/bin\"" ]; # just in case
+        ExecStart = "${pkgs.sudo}/bin/sudo -i -u nixos ${pkgs.bash}/bin/bash /etc/custom-scripts/clone-nixos-config.sh";
+        #                                        ^^^^^ is the user in the ISO
+      };
+    };
+  };
 }
