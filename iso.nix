@@ -41,6 +41,16 @@
     vim
   ];
 
+  environment.variables = {
+    # for 'sudo -e' || 'sudoedit'
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+    # systemd
+    SYSTEMD_PAGER = "";
+    SYSTEMD_EDITOR = "nvim";
+    TERM = "xterm-256color";
+  };
+
   # all this just because I don't want to clone my NixOS config repo
   environment.etc."custom-scripts/clone-nixos-config.sh" = {
     text = ''
