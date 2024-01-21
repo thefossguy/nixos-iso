@@ -24,13 +24,20 @@
     hardwareClockInLocalTime = true;
   };
 
+  # yes I know that 'programs.<pkg>.enable' exist but this is just an ISO
   environment.systemPackages = with pkgs; [
     bat
     btop
+    curl
+    dmidecode
     git
     htop
+    iperf
+    neovim
     ripgrep
     rsync
     tmux
+    tree
+    vim
   ];
 }
