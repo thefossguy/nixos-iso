@@ -69,6 +69,8 @@
         ExecStart = "${pkgs.sudo}/bin/sudo -i -u nixos ${pkgs.bash}/bin/bash /etc/custom-scripts/clone-nixos-config.sh";
         #                                        ^^^^^ is the user in the ISO
       };
+      requiredBy = [ "getty-pre.target" ];
+      requires = [ "network-online.target" ];
     };
   };
 
