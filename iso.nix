@@ -31,14 +31,20 @@
     curl
     dmidecode
     git
+    gnutar
     htop
     iperf
     neovim
+    parted
+    pciutils
+    perl
     ripgrep
     rsync
     tmux
     tree
+    unzip
     vim
+    wget
   ];
 
   environment.variables = {
