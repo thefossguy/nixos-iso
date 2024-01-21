@@ -52,7 +52,7 @@
   };
 
   # all this just because I don't want to clone my NixOS config repo
-  environment.etc."custom-scripts/clone-nixos-config.sh" = {
+  environment.etc."custom-scripts/nixos-config-clone.sh" = {
     text = ''
       #!${pkgs.bash}/bin/bash
       set -xeuf -o pipefail
@@ -62,11 +62,11 @@
     mode = "0777";
   };
   systemd.services = {
-    "clone-nixos-config" = {
+    "nixos-config-clone" = {
       serviceConfig = {
         Type = "oneshot";
         Environment = [ "PATH=\"${pkgs.openssl}/bin\"" ]; # just in case
-        ExecStart = "${pkgs.sudo}/bin/sudo -i -u nixos ${pkgs.bash}/bin/bash /etc/custom-scripts/clone-nixos-config.sh";
+        ExecStart = "${pkgs.sudo}/bin/sudo -i -u nixos ${pkgs.bash}/bin/bash /etc/custom-scripts/nixos-config-clone.sh";
         #                                        ^^^^^ is the user in the ISO
       };
       requiredBy = [ "multi-user.target" ];
