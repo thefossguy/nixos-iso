@@ -64,7 +64,7 @@
       set -xeuf -o pipefail
 
       ${pkgs.git}/bin/git clone --bare https://gitlab.com/thefossguy/dotfiles.git $HOME/.dotfiles
-      ${pkgs.git}/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME
+      ${pkgs.git}/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME checkout -f
 
       ${pkgs.git}/bin/git clone https://gitlab.com/thefossguy/prathams-nixos.git $HOME/prathams-nixos
     '';
@@ -78,7 +78,7 @@
         ExecStart = "${pkgs.sudo}/bin/sudo -i -u nixos ${pkgs.bash}/bin/bash /etc/custom-scripts/setup-on-boot.sh";
         #                                        ^^^^^ is the user in the ISO
       };
-      requiredBy = [ "multi-user.target" "getty.target" ];
+      requiredBy = [ "getty-pre.target" "multi-user.target" ];
       wants = [ "network-online.target" "network.target" "nss-lookup.target" "nss-user-lookup.target" ];
       after = [ "network-online.target" "network.target" "nss-lookup.target" "nss-user-lookup.target" ];
     };
