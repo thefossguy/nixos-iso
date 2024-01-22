@@ -58,24 +58,27 @@
   };
 
   # all this just because I don't want to clone my NixOS config repo
-  environment.etc."custom-scripts/nixos-config-clone.sh" = {
+  environment.etc."custom-scripts/setup-on-boot.sh" = {
     text = ''
       #!${pkgs.bash}/bin/bash
       set -xeuf -o pipefail
+
+      ${pkgs.git}/bin/git clone --bare https://gitlab.com/thefossguy/dotfiles.git $HOME/.dotfiles
+      ${pkgs.git}/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME
 
       ${pkgs.git}/bin/git clone https://gitlab.com/thefossguy/prathams-nixos.git $HOME/prathams-nixos
     '';
     mode = "0777";
   };
   systemd.services = {
-    "nixos-config-clone" = {
+    "setup-on-boot" = {
       serviceConfig = {
         Type = "oneshot";
         Environment = [ "PATH=\"${pkgs.openssl}/bin\"" ]; # just in case
-        ExecStart = "${pkgs.sudo}/bin/sudo -i -u nixos ${pkgs.bash}/bin/bash /etc/custom-scripts/nixos-config-clone.sh";
+        ExecStart = "${pkgs.sudo}/bin/sudo -i -u nixos ${pkgs.bash}/bin/bash /etc/custom-scripts/setup-on-boot.sh";
         #                                        ^^^^^ is the user in the ISO
       };
-      requiredBy = [ "multi-user.target" ];
+      requiredBy = [ "multi-user.target" "getty.target" ];
       wants = [ "network-online.target" "network.target" "nss-lookup.target" "nss-user-lookup.target" ];
       after = [ "network-online.target" "network.target" "nss-lookup.target" "nss-user-lookup.target" ];
     };
