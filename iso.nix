@@ -1,10 +1,6 @@
 { lib, pkgs, config, ... }:
 
 {
-  imports = [
-    <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix>
-  ];
-
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     # since the latest kernel package is installed, there will be a ZFS conflict because
