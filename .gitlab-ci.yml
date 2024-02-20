@@ -1,0 +1,4 @@
+test-nix:
+  stage: test
+  script:
+    - command -v nix
