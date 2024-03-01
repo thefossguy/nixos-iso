@@ -3,6 +3,11 @@
 
 set -xeu
 
+if [ "$(uname -s)" != 'Linux' ]; then
+    echo 'What operating system is even this?'
+    exit 1
+fi
+
 nom build .
 
 for resultISO in $(basename result/iso/nixos-*-"$(uname -m)"-linux.iso); do
