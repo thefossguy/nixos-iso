@@ -1,3 +1,4 @@
-result
-mnt/*
 *.iso
+*.iso.*
+mnt/*
+result
