@@ -26,6 +26,7 @@
     btop
     curl
     dmidecode
+    file
     git
     gnutar
     htop
