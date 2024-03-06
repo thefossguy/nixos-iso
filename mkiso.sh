@@ -8,7 +8,7 @@ if [ "$(uname -s)" != 'Linux' ]; then
     exit 1
 fi
 
-nom build .
+time nom build .
 
 for resultISO in $(basename result/iso/nixos-*-"$(uname -m)"-linux.iso); do
     cp result/iso/"${resultISO}" .
