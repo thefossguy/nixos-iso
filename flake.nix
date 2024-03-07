@@ -1,11 +1,19 @@
 {
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
-    nixos-generators.url = "github:nix-community/nixos-generators";
-    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
+
+    home-manager = {
+      url = "github:nix-community/home-manager/release-23.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, nixos-generators, ... }:
+  outputs = { self, nixpkgs, nixos-generators, home-manager, ... } @attrs:
     let
       # helpers for producing system-specific outputs
       supportedSystems = [
@@ -15,15 +23,14 @@
       ];
       forEachSupportedSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
         pkgs = import nixpkgs { inherit system; };
-        inherit system;
       });
     in
     {
-      packages = forEachSupportedSystem ({ pkgs, system, ... }: {
+      packages = forEachSupportedSystem ({ pkgs, ... }: {
         default = nixos-generators.nixosGenerate {
-          inherit system;
+          inherit (pkgs) system;
+          specialArgs = attrs;
           format = "install-iso";
-
           modules = [ ./iso.nix ];
         };
       });
