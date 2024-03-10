@@ -1,8 +1,8 @@
 { lib, pkgs, config, home-manager, ... }:
 
 let
-  NixOSMajor = builtins.elemAt (lib.versions.splitVersion lib.version) 0;
-  NixOSMinor = builtins.elemAt (lib.versions.splitVersion lib.version) 1;
+  NixOSMajor = lib.versions.major lib.version;
+  NixOSMinor =  lib.versions.minor lib.version;
   NixOSRelease = "${NixOSMajor}.${NixOSMinor}";
 in
 
